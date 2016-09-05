@@ -33,3 +33,9 @@ Lazy Routing makes use of the `resolve` property of the `route` method in the de
                     return deferred.promise;
                 })
         });
+
+4. Register your controllers to the ngLazyRouting module (since it needs them to be able to find them)
+
+        angular.module('ngLazyRouting').register.controller('MyController', function ($scope) {
+            // do stuff
+        });
