@@ -9,27 +9,27 @@ Lazy Routing makes use of the `resolve` property of the `route` method in the de
 
 1. Load the Lazy Routing script
 
-    <script src="dist/angular-lazy-routing.min.js"></script>
+        <script src="dist/angular-lazy-routing.min.js"></script>
 
 2. Add `ngLazyRouting` as a dependency
 
-    var myApp = angular.module('myApp', ['ngLazyRouting']);
+        var myApp = angular.module('myApp', ['ngLazyRouting']);
 
 3. Configure the `$routingConfigProvider` in your app config
 
-    myApp.config(function ($routingConfigProvider) {
-        $routingConfigProvider
-            .setRouteCallback(function (path, $q, $http) {
-                var deferred = $q.defer();
-                // handle the route, then resolve
-                var route = {
-                  template: '<p>Hello World!</p>'
-                  controller: {
-                    name: 'MyController',
-                    path: 'path/to/MyController.js'
-                  }
-                }
-                deferred.resolve(route);
-                return deferred.promise;
-            })
-    });
+        myApp.config(function ($routingConfigProvider) {
+            $routingConfigProvider
+                .setRouteCallback(function (path, $q, $http) {
+                    var deferred = $q.defer();
+                    // handle the route, then resolve
+                    var route = {
+                      template: '<p>Hello World!</p>'
+                      controller: {
+                        name: 'MyController',
+                        path: 'path/to/MyController.js'
+                      }
+                    }
+                    deferred.resolve(route);
+                    return deferred.promise;
+                })
+        });
