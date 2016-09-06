@@ -27,7 +27,11 @@ ngLazyRouting.run(['$routeProvider', '$routingConfig', 'RoutingService', functio
 }]);
 
 ngLazyRouting.provider('$routingConfig', function () {
-    this.error = {};
+    this.error = {
+        401: {name: 'unauthorized', template: '<div>401 Unauthorized</div>'},
+        403: {name: 'forbidden', template: '<div>403 Forbidden</div>'},
+        404: {name: 'notfound', template: '<div>404 Not Found</div>'}
+    };
     
     this.setRoutes = function(routes){
         this.routes = routes;
@@ -52,11 +56,6 @@ ngLazyRouting.provider('$routingConfig', function () {
 ngLazyRouting.service('RoutingService', ['$rootScope', '$q', '$templateCache', '$route', '$routingConfig', function ($rootScope, $q, $templateCache, $route, routingConfig) {
     var Self = this;
     var routesCache = {};
-    var errorCodes = {
-        401: {name: 'unauthorized', template: '<div>401 Unauthorized</div>'},
-        403: {name: 'forbidden', template: '<div>403 Forbidden</div>'},
-        404: {name: 'notfound', template: '<div>404 Not Found</div>'}
-    };
     
     this.route = function () {
         var deferred = $q.defer();
@@ -85,22 +84,25 @@ ngLazyRouting.service('RoutingService', ['$rootScope', '$q', '$templateCache', '
     
     this.handleErrors = function (e) {
         $rootScope.$broadcast('routing error', e);
-        if (typeof errorCodes[e.status] !== 'undefined') {
-            var templateUrl = errorCodes[e.status].name;
-            if (typeof routingConfig.error[e.status] === 'undefined') {
-                $templateCache.put(errorCodes[e.status].name, errorCodes[e.status].template);
-            } else if (/<[a-z][\s\S]*>/i.test(routingConfig.error[e.status])) {
-                $templateCache.put(errorCodes[e.status].name, routingConfig.error[e.status]);
-            } else {
-                templateUrl = routingConfig.error[e.status];
-            }
+        if (typeof routingConfig.error[e.status] !== 'undefined') {
+            var error = routingConfig.error[e.status];
+            var templateUrl = error.name;
+            if(typeof error.template !== 'undefined'){
+                $templateCache.put(templateUrl, error.template);
+            } else if(typeof error.templateUrl !== 'undefined'){
+                templateUrl = error.templateUrl;
+            } 
             $rootScope.templateUrl = templateUrl;
         }
     };
     
     this.applyRouteChange = function(path, route){
-        $templateCache.put(path, route.template);
-        $rootScope.templateUrl = path;
+        if(typeof route.template !== 'undefined'){
+            $templateCache.put(path, route.template);
+            $rootScope.templateUrl = path;
+        } else if(typeof route.templateUrl !== 'undefined'){
+            $rootScope.templateUrl = route.templateUrl;
+        }
         $route.current.controller = route.controller.name;
     };
 }]);
