@@ -8,36 +8,37 @@ Lazy Routing makes use of the `resolve` property of the `route` method in the de
 ### How to use
 
 1. Load the Lazy Routing module. The Lazy Routing module depends on the Angular route module and ofcourse Angular
-
-        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
-        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-route.min.js"></script>
-        <script src="dist/angular-lazy-routing.min.js"></script>
-
+```html
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-route.min.js"></script>
+<script src="dist/angular-lazy-routing.min.js"></script>
+```
 2. Add `ngLazyRouting` as a dependency
-
-        var myApp = angular.module('myApp', ['ngLazyRouting']);
-
+```javascript
+var myApp = angular.module('myApp', ['ngLazyRouting']);
+```
 3. Configure the `$routingConfigProvider` in your app config
-
-        myApp.config(function ($routingConfigProvider) {
-            $routingConfigProvider
-                .setRouteCallback(function (path, $q, $http) {
-                    var deferred = $q.defer();
-                    // handle the route, then resolve
-                    var route = {
-                      template: '<p>Hello World!</p>'
-                      controller: {
-                        name: 'MyController',
-                        path: 'path/to/MyController.js'
-                      }
-                    }
-                    deferred.resolve(route);
-                    return deferred.promise;
-                })
-        });
-
+```javascript
+myApp.config(function ($routingConfigProvider) {
+    $routingConfigProvider
+        .setRouteCallback(function (path, $q, $http) {
+            var deferred = $q.defer();
+            // handle the route, then resolve
+            var route = {
+              template: '<p>Hello World!</p>'
+              controller: {
+                name: 'MyController',
+                path: 'path/to/MyController.js'
+              }
+            }
+            deferred.resolve(route);
+            return deferred.promise;
+        })
+});
+```
 4. Register your controllers to the ngLazyRouting module (since it needs them to be able to find them)
-
-        angular.module('ngLazyRouting').register.controller('MyController', function ($scope) {
-            // do stuff
-        });
+```javascript
+angular.module('ngLazyRouting').register.controller('MyController', function ($scope) {
+    // do stuff
+});
+```
