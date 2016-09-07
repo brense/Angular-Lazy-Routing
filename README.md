@@ -1,14 +1,16 @@
 # Angular-Lazy-Routing
 A route provider for angular, that features lazy loading of controllers
 
-Usually angular apps or websites need to load all controllers on first page load even though some of those controllers might never be used by the client because they simply do not visit the page that uses it.
+Usually angular apps or websites need to load all controllers on first page load, even though some of those controllers might never be used by the client, because they simply do not visit the page that uses it.
 
-Lazy Routing makes use of the `resolve` property of the `route` method in the default angular `$routeProvider` to load controllers before the route is resolved.
+Lazy Routing makes use of the `resolve` property of the `route` method in the default angular `$routeProvider` to load a controller before the route is resolved.
 
 ### How to use
 
-1. Load the Lazy Routing script
+1. Load the Lazy Routing module. The Lazy Routing module depends on the Angular route module and ofcourse Angular
 
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-route.min.js"></script>
         <script src="dist/angular-lazy-routing.min.js"></script>
 
 2. Add `ngLazyRouting` as a dependency
