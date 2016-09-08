@@ -1,4 +1,4 @@
-# Angular-Lazy-Routing
+# Angular Lazy Routing
 A route provider for angular, that features lazy loading of controllers
 
 Usually angular apps or websites need to load all controllers on first page load, even though some of those controllers might never be used by the client, because they simply do not visit the page that uses it.
