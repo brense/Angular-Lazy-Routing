@@ -12,7 +12,7 @@ angular.module('ngLazyRouting').service('RoutingService', ['$rootScope', '$q', '
             var injector = angular.injector(['ng']);
             injector.instantiate(routingConfig.callback, {path: (path.indexOf('/') === 0 ? path : '/' + path)}).then(function (response) {
                 routesCache[path] = response;
-                Self.loadScript([response.controller.path]).then(function () {
+                Self.loadScripts([response.controller.path]).then(function () {
                     Self.applyRouteChange(path, response);
                     deferred.resolve();
                 });
@@ -51,7 +51,7 @@ angular.module('ngLazyRouting').service('RoutingService', ['$rootScope', '$q', '
         $route.current.controller = route.controller.name;
     };
     
-    this.loadScript = function (scripts) {
+    this.loadScripts = function (scripts) {
         var promises = [];
         for (var k in scripts) {
             promises.push(loadScript(scripts[k]));
