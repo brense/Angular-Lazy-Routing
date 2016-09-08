@@ -55,7 +55,8 @@ This callback function will be called during routing. The callback function must
         name: 'string', // required, The actual name of the controller
         path: 'string' // required, The path where the controller can be found
     },
-    dependencies: [] // optional, A list of paths for additional scripts that should be loaded
+    dependencies: [] // optional, A list of paths for additional controllers or other scripts that should be loaded.
+                     // Please note that all controllers need to be registered to the ngLazyRouting module.
 }
 ```
 
