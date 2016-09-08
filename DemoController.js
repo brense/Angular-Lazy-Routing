@@ -1,3 +1,3 @@
-angular.module('ngLazyRouting').register.controller('DemoController', function ($scope) {
+angular.module('ngLazyRouting').controller('DemoController', function ($scope) {
     $scope.test = 'Hello World!';
 });
