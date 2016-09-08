@@ -51,14 +51,10 @@ angular.module('ngLazyRouting').service('RoutingService', ['$rootScope', '$q', '
         $route.current.controller = route.controller.name;
     };
     
-    this.loadScript = function (script) {
-        var arr = [script];
+    this.loadScript = function (scripts) {
         var promises = [];
-        if (typeof script !== 'string') {
-            arr = script;
-        }
-        for (var k in arr) {
-            promises.push(loadScript(arr[k]));
+        for (var k in scripts) {
+            promises.push(loadScript(scripts[k]));
         }
         return $q.all(promises);
     };
