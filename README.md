@@ -54,7 +54,8 @@ This callback function will be called during routing. The callback function must
     controller: { // required
         name: 'string', // required, The actual name of the controller
         path: 'string' // required, The path where the controller can be found
-    }
+    },
+    dependencies: [] // optional, A list of paths for additional scripts that should be loaded
 }
 ```
 
