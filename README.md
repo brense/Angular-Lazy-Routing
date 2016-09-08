@@ -59,7 +59,7 @@ This callback function will be called during routing. The callback function must
 ```
 
 ### setRoutes(routes `array`)
-This function can be used to change the default routes, the default routes are `['/', '/:page*']`.
+This function can be used to change the default routes. The default routes are `['/', '/:page*']`.
 
 ### setErrorTemplate(erroCode `int`, template `obj`)
 This function can be used to overwrite the default error templates when a route cannot be resolved, for example when you want to show a 404 template when a route cannot be found. The `template` object is as follows:
