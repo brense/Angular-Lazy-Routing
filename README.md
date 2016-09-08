@@ -59,6 +59,7 @@ This callback function will be called during routing. The callback function must
                      // Please note that all controllers need to be registered to the ngLazyRouting module.
 }
 ```
+The callback function will be injected with a `path` paramter that contains the currently requested path. Any other angular services will also be available through injection. For example, you can add `$q` and `$http` etc. to the paramters of your callback function and they will be automagically injected using `injector.instantiate`
 
 ### setRoutes(routes `array`)
 This function can be used to change the default routes. The default routes are `['/', '/:page*']`.
