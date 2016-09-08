@@ -12,7 +12,7 @@ angular.module('ngLazyRouting').service('RoutingService', ['$rootScope', '$q', '
             var injector = angular.injector(['ng']);
             injector.instantiate(routingConfig.callback, {path: (path.indexOf('/') === 0 ? path : '/' + path)}).then(function (response) {
                 routesCache[path] = response;
-                $script([response.controller.path], function () {
+                Self.loadScript([response.controller.path]).then(function () {
                     Self.applyRouteChange(path, response);
                     deferred.resolve();
                 });
@@ -50,4 +50,33 @@ angular.module('ngLazyRouting').service('RoutingService', ['$rootScope', '$q', '
         }
         $route.current.controller = route.controller.name;
     };
+    
+    this.loadScript = function (script) {
+        var arr = [script];
+        var promises = [];
+        if (typeof script !== 'string') {
+            arr = script;
+        }
+        for (var k in arr) {
+            promises.push(loadScript(arr[k]));
+        }
+        return $q.all(promises);
+    };
+    
+    function loadScript(script){
+        var deferred = $q.defer();
+        var elem = document.createElement('script');
+        elem.type = 'text/javascript';
+        elem.src = script;
+        elem.onload = function(){
+            deferred.resolve();
+        };
+        elem.onreadystatechange = function () {
+            if (this.readyState === 'complete') {
+                deferred.resolve();
+            }
+        };
+        document.getElementsByTagName('head')[0].appendChild(elem);
+        return deferred.promise;
+    }
 }]);
