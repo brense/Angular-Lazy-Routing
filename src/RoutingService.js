@@ -1,6 +1,7 @@
 angular.module('ngLazyRouting').service('RoutingService', ['$rootScope', '$q', '$templateCache', '$route', '$routingConfig', function ($rootScope, $q, $templateCache, $route, routingConfig) {
     var Self = this;
     var routesCache = {};
+    var loadedScripts = {};
     
     this.route = function () {
         var deferred = $q.defer();
@@ -12,7 +13,11 @@ angular.module('ngLazyRouting').service('RoutingService', ['$rootScope', '$q', '
             var injector = angular.injector(['ng']);
             injector.instantiate(routingConfig.callback, {path: (path.indexOf('/') === 0 ? path : '/' + path)}).then(function (response) {
                 routesCache[path] = response;
-                Self.loadScripts([response.controller.path]).then(function () {
+                var scripts = [response.controller.path];
+                if(typeof response.dependencies !== 'undefined'){
+                    scripts = scripts.concat(response.dependencies);
+                }
+                Self.loadScripts(scripts).then(function () {
                     Self.applyRouteChange(path, response);
                     deferred.resolve();
                 });
@@ -61,18 +66,24 @@ angular.module('ngLazyRouting').service('RoutingService', ['$rootScope', '$q', '
     
     function loadScript(script){
         var deferred = $q.defer();
-        var elem = document.createElement('script');
-        elem.type = 'text/javascript';
-        elem.src = script;
-        elem.onload = function(){
-            deferred.resolve();
-        };
-        elem.onreadystatechange = function () {
-            if (this.readyState === 'complete') {
+        if(typeof loadedScripts[script] === 'undefined'){
+            var elem = document.createElement('script');
+            elem.type = 'text/javascript';
+            elem.src = script;
+            elem.onload = function(){
+                loadedScripts[script] = true;
                 deferred.resolve();
-            }
-        };
-        document.getElementsByTagName('head')[0].appendChild(elem);
+            };
+            elem.onreadystatechange = function () {
+                if (this.readyState === 'complete') {
+                    loadedScripts[script] = true;
+                    deferred.resolve();
+                }
+            };
+            document.getElementsByTagName('head')[0].appendChild(elem);
+        } else {
+            deferred.resolve();
+        }
         return deferred.promise;
     }
 }]);
