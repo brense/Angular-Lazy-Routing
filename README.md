@@ -7,17 +7,18 @@ Lazy Routing makes use of the `resolve` property of the `route` method in the de
 
 ### How to use
 
-1. Load the Lazy Routing module. The Lazy Routing module depends on the Angular route module and ofcourse Angular
+Load the Lazy Routing module. The Lazy Routing module depends on the Angular route module and ofcourse Angular
 ```html
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-route.min.js"></script>
 <script src="dist/angular-lazy-routing.min.js"></script>
 ```
-2. Add `ngLazyRouting` as a dependency
+Add `ngLazyRouting` as a dependency
 ```javascript
 var myApp = angular.module('myApp', ['ngLazyRouting']);
 ```
-3. Configure the `$routingConfigProvider` in your app config
+
+Configure the `$routingConfigProvider` in your app config
 ```javascript
 myApp.config(function ($routingConfigProvider) {
     $routingConfigProvider
@@ -36,7 +37,7 @@ myApp.config(function ($routingConfigProvider) {
         })
 });
 ```
-4. Register your controllers to the ngLazyRouting module (since it needs them to be able to find them)
+Register your controllers to the ngLazyRouting module (since it needs them to be able to find them)
 ```javascript
 angular.module('ngLazyRouting').controller('MyController', function ($scope) {
     // do stuff
