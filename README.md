@@ -38,7 +38,7 @@ myApp.config(function ($routingConfigProvider) {
 ```
 4. Register your controllers to the ngLazyRouting module (since it needs them to be able to find them)
 ```javascript
-angular.module('ngLazyRouting').register.controller('MyController', function ($scope) {
+angular.module('ngLazyRouting').controller('MyController', function ($scope) {
     // do stuff
 });
 ```
