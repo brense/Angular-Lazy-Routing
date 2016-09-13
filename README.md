@@ -44,6 +44,14 @@ angular.module('ngLazyRouting').controller('MyController', function ($scope) {
 });
 ```
 
+## Manually loading scripts
+Manually loading scripts means they will not be added to the internal cache of the lazy routing module. Instead use the `loadScripts` method in the `RouteService`. This method will ensure that scripts are not loaded and added to the DOM twice.
+```javascript
+RouteService.loadScripts(['path/to/MyController.js']).then(function(){
+    // do stuff
+});
+```
+
 ## $routingConfigProvider methods
 ### setRouteCallback(callback `function`)
 This callback function will be called during routing. The callback function must return a promise. When the promise is resolved, the `$routeChangeSuccess` event will be fired (see angular docs on [$routeProvider](https://docs.angularjs.org/api/ngRoute/provider/$routeProvider)). The promise must be resolved with the following object:
