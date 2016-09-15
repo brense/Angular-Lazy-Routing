@@ -56,7 +56,9 @@ angular.module('ngLazyRouting').service('RoutingService', ['$rootScope', '$q', '
         } else if(typeof route.templateUrl !== 'undefined'){
             $rootScope.templateUrl = route.templateUrl;
         }
-        $route.current.controller = route.controller.name;
+        if(typeof route.controller !== 'undefined'){
+            $route.current.controller = route.controller.name;
+        }
     };
     
     this.loadScripts = function (scripts) {
