@@ -13,7 +13,10 @@ angular.module('ngLazyRouting').service('RoutingService', ['$rootScope', '$q', '
             var injector = angular.injector(['ng']);
             injector.instantiate(routingConfig.callback, {path: (path.indexOf('/') === 0 ? path : '/' + path)}).then(function (response) {
                 routesCache[path] = response;
-                var scripts = [response.controller.path];
+                var scripts = [];
+                if(typeof response.controllers !== 'undefined'){
+                    scripts.push(response.controller.path);
+                }
                 if(typeof response.dependencies !== 'undefined'){
                     scripts = scripts.concat(response.dependencies);
                 }
